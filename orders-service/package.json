@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@apollo/subgraph": "^2.9.0",
+    "@ww/gql-base-service": "^3.238.0",
     "apollo-server": "^3.13.0",
     "graphql": "^16.9.0"
   }
