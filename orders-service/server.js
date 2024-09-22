@@ -6,7 +6,10 @@ const orders = JSON.parse(fs.readFileSync('orders.json'), 'utf-8');
 
 const typeDefs = gql`
   extend schema
-    @link(url: "https://specs.apollo.dev/federation/v2.5", import: ["@key"])
+    @link(
+      url: "https://specs.apollo.dev/federation/v2.5"
+      import: ["@key", "@requires", "@external"]
+    )
 
   type Order {
     id: ID!
