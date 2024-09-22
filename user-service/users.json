@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "name": "Alice",
+    "address": "123 Main St"
+  },
+  {
+    "id": "2",
+    "name": "Bob",
+    "address": "456 Maple Ave"
+  },
+  {
+    "id": "3",
+    "name": "Charlie",
+    "address": "789 Elm St"
+  },
+  {
+    "id": "4",
+    "name": "Diana",
+    "address": "101 Oak St"
+  }
+]

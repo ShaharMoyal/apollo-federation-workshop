@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "format": "prettier --write '**/*.js'",
+    "start": "concurrently \"npm run start:orders-service\" \"npm run start:user-service\" \"npm run start:products-service\" \"npm run start:gateway\" ",
+    "start:gateway": "cd gateway && npm start",
+    "start:apollo-gateway": "cd apollo-gateway && npm start",
+    "start:orders-service": "cd orders-service && npm start",
+    "start:user-service": "cd user-service && npm start",
+    "start:products-service": "cd products-service && npm start"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
+  }
+}
