@@ -10,7 +10,19 @@ require('dotenv').config();
 const app = express();
 
 const typeDefs = gql`
-  type Product {
+  extend schema
+    @link(
+      url: "https://specs.apollo.dev/federation/v2.5"
+      import: ["@key", "@requires", "@external"]
+    )
+
+  type Order @key(fields: "id") {
+    id: ID!
+    productIds: [ID!]! @external
+    totalOrderPrice: Float! @requires(fields: "productIds")
+  }
+
+  type Product @key(fields: "id") {
     id: ID!
     name: String!
     price: Float!
@@ -22,6 +34,20 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
+  Order: {
+    Product: {
+      __resolveReference({ id }) {
+        return products.filter(({ id: productId }) => productId === id);
+      },
+    },
+    totalOrderPrice({ productIds }) {
+      return products
+        .filter(({ id }) => productIds.includes(id))
+        .reduce((acc, { price }) => {
+          return (acc += price);
+        }, 0);
+    },
+  },
   Query: {
     products() {
       return products;

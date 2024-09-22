@@ -8,6 +8,7 @@
     "start:products-service": "cd products-service && npm start"
   },
   "dependencies": {
+    "@ww/gql-base-service": "^3.238.0",
     "concurrently": "^8.2.2"
   },
   "devDependencies": {

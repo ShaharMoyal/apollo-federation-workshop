@@ -9,11 +9,23 @@ require('dotenv').config();
 const app = express();
 
 const typeDefs = gql`
-  type Order {
+  extend schema
+    @link(
+      url: "https://specs.apollo.dev/federation/v2.5"
+      import: ["@key", "@requires", "@external"]
+    )
+
+  type Product @key(fields: "id") {
+    id: ID!
+    productOrderCount: Int
+  }
+
+  type Order @key(fields: "id") {
     id: ID!
     date: String!
     userId: ID!
     productIds: [ID!]!
+    products: [Product]
   }
 
   type Query {
@@ -22,6 +34,14 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
+  Product: {
+    productOrderCount({ id }) {
+      return orders.filter((order) => order.productIds.includes(id)).length;
+    },
+  },
+  Order: {
+    products: mapArrayResolver("productIds"),
+  },
   Query: {
     orders() {
       return orders;
