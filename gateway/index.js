@@ -1,4 +1,4 @@
-const { ApolloServer } = require('apollo-server');
+const { ApolloServer } = require('apollo-server-express');
 const {
   IntrospectAndCompose,
   RemoteGraphQLDataSource,
@@ -6,11 +6,16 @@ const {
 const {
   getStitchedSchemaFromSupergraphSdl,
 } = require('@graphql-tools/federation');
+const express = require('express');
+const bodyParser = require('body-parser');
+
+require('dotenv').config();
+const app = express();
 
 const serviceList = [
-  { name: 'Orders', url: 'http://localhost:4001' },
-  { name: 'Users', url: 'http://localhost:4002' },
-  { name: 'Products', url: 'http://localhost:4003' },
+  { name: 'Orders', url: 'http://localhost:4001/graphql' },
+  { name: 'Users', url: 'http://localhost:4002/graphql' },
+  { name: 'Products', url: 'http://localhost:4003/graphql' },
 ];
 
 (async () => {
@@ -21,11 +26,33 @@ const serviceList = [
   const schema = getStitchedSchemaFromSupergraphSdl({
     supergraphSdl,
   });
+
   const server = new ApolloServer({
     schema,
   });
 
-  server.listen(4000).then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
+  if (process.env.GQL_TRACING) {
+    app.use(bodyParser.json(), (req, res, next) => {
+      const query = req.body?.operationName || '';
+
+      // Ignore introspection queries
+      if (query === 'IntrospectionQuery') {
+        return next();
+      }
+
+      console.debug('GQL Request Body', JSON.stringify(req.body, null, 4));
+      next();
+    });
+  }
+
+  server.start().then(() => {
+    server.applyMiddleware({ app });
+
+    const PORT = 4000;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+    });
+  }).catch(err => {
+    console.error('Error starting the server:', err);
   });
 })();
