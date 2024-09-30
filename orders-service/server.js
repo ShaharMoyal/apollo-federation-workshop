@@ -3,6 +3,8 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+
+// TODO - figure out how to use the logger
 // const logger = require('@ww/gql-base-service').logger.withContext(__filename);
 
 require('dotenv').config();
@@ -74,7 +76,3 @@ server.start().then(() => {
 }).catch(err => {
   console.error('Error starting the server:', err);
 });
-
-// server.listen(4001).then(({ url }) => {
-//   console.log(`🚀 Server ready at ${url}`);
-// });
