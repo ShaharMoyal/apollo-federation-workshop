@@ -4,10 +4,6 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
-// TODO - figure out how to use the logger
-// const logger = require('@ww/gql-base-service').logger.withContext(__filename);
-
 require('dotenv').config();
 
 const orders = JSON.parse(fs.readFileSync('orders.json'), 'utf-8');
