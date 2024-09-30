@@ -1,16 +1,10 @@
-const { ApolloServer, gql } = require('apollo-server');
-const { buildSubgraphSchema } = require('@apollo/subgraph');
-const fs = require('fs');
+const { ApolloServer, gql } = require("apollo-server");
+const { buildSubgraphSchema } = require("@apollo/subgraph");
+const fs = require("fs");
 
-const users = JSON.parse(fs.readFileSync('users.json'), 'utf-8');
+const users = JSON.parse(fs.readFileSync("users.json"), "utf-8");
 
 const typeDefs = gql`
-  extend schema
-    @link(
-      url: "https://specs.apollo.dev/federation/v2.5"
-      import: ["@key", "@requires", "@external"]
-    )
-
   type User {
     id: ID!
     name: String!
