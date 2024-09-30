@@ -1,8 +1,8 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { buildSubgraphSchema } = require("@apollo/subgraph");
-const fs = require("fs");
+const { ApolloServer, gql } = require('apollo-server');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
+const fs = require('fs');
 
-const products = JSON.parse(fs.readFileSync("products.json"), "utf-8");
+const products = JSON.parse(fs.readFileSync('products.json'), 'utf-8');
 
 const typeDefs = gql`
   type Product {

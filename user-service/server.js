@@ -1,8 +1,8 @@
-const { ApolloServer, gql } = require("apollo-server");
-const { buildSubgraphSchema } = require("@apollo/subgraph");
-const fs = require("fs");
+const { ApolloServer, gql } = require('apollo-server');
+const { buildSubgraphSchema } = require('@apollo/subgraph');
+const fs = require('fs');
 
-const users = JSON.parse(fs.readFileSync("users.json"), "utf-8");
+const users = JSON.parse(fs.readFileSync('users.json'), 'utf-8');
 
 const typeDefs = gql`
   type User {
