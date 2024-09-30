@@ -4,6 +4,7 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+
 // TODO - figure out how to use the logger
 // const logger = require('@ww/gql-base-service').logger.withContext(__filename);
 
@@ -49,15 +50,13 @@ const server = new ApolloServer({
   ]),
 });
 
-// Apply middleware conditionally based on GQL_TRACING environment variable
 if (process.env.GQL_TRACING) {
   app.use(bodyParser.json(), (req, res, next) => {
-    // logger.debug('GQL Request Body', JSON.stringify(req.body, null, 4));
     const query = req.body?.operationName || '';
 
     // Ignore introspection queries
     if (query === 'IntrospectionQuery') {
-      return next(); // Skip logging for introspection queries
+      return next();
     }
 
     console.debug('GQL Request Body', JSON.stringify(req.body, null, 4));
@@ -65,7 +64,6 @@ if (process.env.GQL_TRACING) {
   });
 }
 
-// Start the Apollo server and integrate it with Express
 server.start().then(() => {
   server.applyMiddleware({ app });
 
