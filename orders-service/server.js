@@ -14,10 +14,7 @@ const app = express();
 
 const typeDefs = gql`
   extend schema
-    @link(
-      url: "https://specs.apollo.dev/federation/v2.5"
-      import: ["@key", "@requires", "@external"]
-    )
+    @link(url: "https://specs.apollo.dev/federation/v2.5", import: ["@key"])
 
   type User @key(fields: "id") {
     id: ID!
@@ -38,7 +35,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Order: {
-    user: mapResolver("userId"),
+    user: mapResolver('userId'),
   },
   Query: {
     orders() {
