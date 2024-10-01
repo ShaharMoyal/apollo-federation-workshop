@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "@apollo/gateway": "^2.9.0",
-    "apollo-server": "^3.13.0",
     "graphql": "^16.9.0",
     "@graphql-tools/federation": "^2.2.9",
     "apollo-server-express": "^3.13.0",
