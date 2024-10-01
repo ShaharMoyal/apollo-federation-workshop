@@ -1,12 +1,10 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
-const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
+const users = require('./users.json');
 
 require('dotenv').config();
-
-const users = JSON.parse(fs.readFileSync('users.json'), 'utf-8');
 
 const app = express();
 
