@@ -1,5 +1,5 @@
 {
-  "name": "apollo-server-subgraph2",
+  "name": "subgraph-user",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -7,7 +7,10 @@
   },
   "dependencies": {
     "@apollo/subgraph": "^2.9.0",
-    "apollo-server": "^3.13.0",
+    "apollo-server-express": "^3.13.0",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
     "graphql": "^16.9.0"
   }
 }

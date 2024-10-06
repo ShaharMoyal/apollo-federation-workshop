@@ -1,8 +1,12 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql } = require('apollo-server-express');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
-const fs = require('fs');
+const express = require('express');
+const bodyParser = require('body-parser');
+const users = require('./users.json');
 
-const users = JSON.parse(fs.readFileSync('users.json'), 'utf-8');
+require('dotenv').config();
+
+const app = express();
 
 const typeDefs = gql`
   extend schema
@@ -41,6 +45,27 @@ const server = new ApolloServer({
   ]),
 });
 
-server.listen(4002).then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
+if (process.env.GQL_TRACING) {
+  app.post(server.graphqlPath, bodyParser.json(), (req, res, next) => {
+    const query = req.body?.operationName || '';
+
+    // Ignore introspection queries
+    if (query === 'IntrospectionQuery') {
+      return next();
+    }
+
+    console.debug('GQL Request Body', JSON.stringify(req.body, null, 4));
+    next();
+  });
+}
+
+server.start().then(() => {
+  server.applyMiddleware({ app });
+
+  const PORT = 4002;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  });
+}).catch(err => {
+  console.error('Error starting the server:', err);
 });
