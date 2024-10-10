@@ -47,7 +47,7 @@ if (process.env.GQL_TRACING === 'true') {
       return next();
     }
 
-    console.debug('GQL Request Body', JSON.stringify(req.body, null, 4));
+    console.debug('***Products Subgraph*** GQL Request Body', JSON.stringify(req.body, null, 4));
     next();
   });
 }
