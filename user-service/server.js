@@ -9,6 +9,18 @@ require('dotenv').config();
 const app = express();
 
 const typeDefs = gql`
+  extend schema
+    @link(
+      url: "https://specs.apollo.dev/federation/v2.5"
+      import: ["@key", "@requires", "@external"]
+    )
+
+  type Order @key(fields: "id") {
+    id: ID!
+    userId: ID! @external
+    user: User @requires(fields: "userId")
+  }
+
   type User {
     id: ID!
     name: String!
@@ -21,6 +33,11 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
+  Order: {
+    user({ userId }) {
+      return users.find(({ id }) => id === userId);
+    },
+  },
   Query: {
     users: () => {
       return users;
