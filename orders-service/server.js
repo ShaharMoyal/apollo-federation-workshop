@@ -3,6 +3,7 @@ const { buildSubgraphSchema } = require('@apollo/subgraph');
 const express = require('express');
 const bodyParser = require('body-parser');
 const orders = require('./orders.json');
+const { mapArrayResolver } = require('@ww/gql-base-service/lib/helpers/apollo-federation.helper');
 
 require('dotenv').config();
 
