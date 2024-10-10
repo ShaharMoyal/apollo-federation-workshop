@@ -38,7 +38,7 @@ const server = new ApolloServer({
   ]),
 });
 
-if (process.env.GQL_TRACING) {
+if (process.env.GQL_TRACING === 'true') {
   app.post(server.graphqlPath, bodyParser.json(), (req, res, next) => {
     const query = req.body?.operationName || '';
 

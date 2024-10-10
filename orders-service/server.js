@@ -38,7 +38,7 @@ const server = new ApolloServer({
   ]),
 });
 
-if (process.env.GQL_TRACING) {
+if (process.env.GQL_TRACING === 'true') {
   app.post(server.graphqlPath, bodyParser.json(), (req, res, next) => {
     const query = req.body?.operationName || '';
 
@@ -47,7 +47,7 @@ if (process.env.GQL_TRACING) {
       return next();
     }
 
-    console.debug('GQL Request Body', JSON.stringify(req.body, null, 4));
+    console.debug('***Orders Subgraph*** GQL Request Body', JSON.stringify(req.body, null, 4));
     next();
   });
 }
