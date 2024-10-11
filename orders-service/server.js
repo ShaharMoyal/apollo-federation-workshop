@@ -2,6 +2,10 @@ const { ApolloServer, gql } = require('apollo-server-express');
 const { buildSubgraphSchema } = require('@apollo/subgraph');
 const express = require('express');
 const bodyParser = require('body-parser');
+const {
+  mapResolver,
+} = require('@ww/gql-base-service/lib/helpers/apollo-federation.helper');
+
 const orders = require('./orders.json');
 
 require('dotenv').config();
@@ -9,11 +13,19 @@ require('dotenv').config();
 const app = express();
 
 const typeDefs = gql`
+  extend schema
+    @link(url: "https://specs.apollo.dev/federation/v2.5", import: ["@key"])
+
+  type User @key(fields: "id", resolvable: false) {
+    id: ID!
+  }
+
   type Order {
     id: ID!
     date: String!
     userId: ID!
     productIds: [ID!]!
+    user: User
   }
 
   type Query {
@@ -22,6 +34,9 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
+  Order: {
+    user: mapResolver('userId'),
+  },
   Query: {
     orders() {
       return orders;
