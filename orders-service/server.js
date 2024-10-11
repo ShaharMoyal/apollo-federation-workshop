@@ -9,7 +9,10 @@ require('dotenv').config();
 const app = express();
 
 const typeDefs = gql`
-  type Order {
+  extend schema
+    @link(url: "https://specs.apollo.dev/federation/v2.5", import: ["@key"])
+
+  type Order @key(fields: "id") {
     id: ID!
     date: String!
     userId: ID!
